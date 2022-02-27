@@ -2,14 +2,15 @@
   "dependencies": {
     "console.table": "^0.10.0",
     "inquirer": "^8.2.0",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "node": "^17.4.0"
   },
   "name": "employee_tracker",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
