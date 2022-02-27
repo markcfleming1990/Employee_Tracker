@@ -3,23 +3,28 @@ DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS department;
 
 
+
+CREATE TABLE department (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  department_name VARCHAR(30) NOT NULL
+);
+
+
+CREATE TABLE roles (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(30) NOT NULL,
+  salary DECIMAL,
+  department_id INTEGER
+);
+
 CREATE TABLE employee (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   roles_id INTEGER,
   manager_id INTEGER
 );
 
-CREATE TABLE roles (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(30) NOT NULL,
-  salary DECIMAL,
-  department_id INTEGER
-);
 
-CREATE TABLE department (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  department_name VARCHAR(30) NOT NULL
-);
+
 
