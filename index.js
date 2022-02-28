@@ -172,6 +172,20 @@ const viewEmployeesByDepartment = () => {
   });
 };
 
+//show department by budget
+const viewDepartmentBudget = () => {
+  const sql = `SELECT department_id AS id,
+              department.department_name AS department
+              SUM(salary) as budget
+              from role
+              INNER JOIN department on role.department_id`;
+  connection.query(sql, (error, response) => {
+    if (error) throw error;
+    console.log(`Current Employees sorted by department`);
+    console.table(response);
+    
+  });
+};
 
 //add dept
 
