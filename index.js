@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "goat",
-  database: "company",
+  database: "company_db",
 });
 
 connection.connect((err) => {
@@ -101,7 +101,7 @@ function viewDepartments() {
 
 // view all roles in the database
 function viewRoles() {
-  var query = 'SELECT * FROM role';
+  var query = 'SELECT * FROM roles';
   connection.query(query, function(err, res){
       if (err) throw err;
       console.table('All Roles:', res);
@@ -111,7 +111,7 @@ function viewRoles() {
 
 // add an employee to the database
 function addEmployee() {
-  connection.query('SELECT * FROM role', function (err, res) {
+  connection.query('SELECT * FROM roles', function (err, res) {
       if (err) throw err;
       inquirer
           .prompt([
@@ -131,23 +131,23 @@ function addEmployee() {
                   message: "What is the employee's manager's ID? "
               },
               {
-                  name: 'role', 
+                  name: 'roles', 
                   type: 'list',
                   choices: function() {
-                  var roleArray = [];
+                  var rolesArray = [];
                   for (let i = 0; i < res.length; i++) {
-                      roleArray.push(res[i].title);
+                      rolesArray.push(res[i].title);
                   }
-                  return roleArray;
+                  return rolesArray;
                   },
                   message: "What is this employee's role? "
               }
               ]).then(function (answer) {
-                  let role_id;
+                  let roles_id;
                   for (let a = 0; a < res.length; a++) {
                       if (res[a].title == answer.role) {
-                          role_id = res[a].id;
-                          console.log(role_id)
+                          roles_id = res[a].id;
+                          console.log(roles_id)
                       }                  
                   }  
                   connection.query(
@@ -156,7 +156,7 @@ function addEmployee() {
                       first_name: answer.first_name,
                       last_name: answer.last_name,
                       manager_id: answer.manager_id,
-                      role_id: role_id,
+                      roles_id: roles_id,
                   },
                   function (err) {
                       if (err) throw err;
