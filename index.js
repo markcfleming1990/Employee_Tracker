@@ -172,7 +172,7 @@ function addDepartment() {
   inquirer
       .prompt([
           {
-              name: 'newDepartment', 
+              name: 'department_name', 
               type: 'input', 
               message: 'Which department would you like to add?'
           }
@@ -180,7 +180,7 @@ function addDepartment() {
               connection.query(
                   'INSERT INTO department SET ?',
                   {
-                      name: answer.newDepartment
+                      department_name: answer.department_name, 
                   });
               var query = 'SELECT * FROM department';
               connection.query(query, function(err, res) {
@@ -194,13 +194,14 @@ function addDepartment() {
 
 // add a role to the database
 function addRole() {
-  connection.query('SELECT * FROM department', function(err, res) {
+    let department = [];
+  connection.query('SELECT * FROM roles', function(err, res) {
       if (err) throw err;
   
       inquirer 
       .prompt([
           {
-              name: 'new_role',
+              name: 'title',
               type: 'input', 
               message: "What new role would you like to add?"
           },
@@ -210,30 +211,21 @@ function addRole() {
               message: 'What is the salary of this role? (Enter a number)'
           },
           {
-              name: 'Department',
+              name: 'department_name',
               type: 'list',
-              choices: function() {
-                  var deptArry = [];
-                  for (let i = 0; i < res.length; i++) {
-                  deptArry.push(res[i].name);
-                  }
-                  return deptArry;
-              },
-          }
-      ]).then(function (answer) {
-          let department_id;
-          for (let a = 0; a < res.length; a++) {
-              if (res[a].name == answer.Department) {
-                  department_id = res[a].id;
+              message: "Which Department?",
+              choices: department
               }
-          }
+    
+      ]).then(function (answer) {
+          console.log(answer);
   
           connection.query(
-              'INSERT INTO role SET ?',
+              'INSERT INTO roles SET ?',
               {
-                  title: answer.new_role,
+                  title: answer.title,
                   salary: answer.salary,
-                  department_id: department_id
+                  department_id:answer.department
               },
               function (err, res) {
                   if(err)throw err;
@@ -246,10 +238,13 @@ function addRole() {
 };
 
 // update a role in the database
-
+function updateRole() {
+}
 
 //  delete an employee
-
+function deleteEmployee() {
+    
+}
 
 // exit the app
 function exitApp() {
