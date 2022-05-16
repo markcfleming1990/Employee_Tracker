@@ -1,14 +1,7 @@
-const mysql = require("mysql2");
-const inquirer = require("inquirer");
-const cTablet = require("console.table");
-
-//DB connection
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "goat",
-  database: "company_db",
-});
+const mysql = require('mysql2');
+const inquirer = require('inquirer');
+const consoleTable = require('console.table');
+const connection = require('./db/connect')
 
 connection.connect((err) => {
   if (err) throw err;
@@ -25,7 +18,6 @@ afterConnection = () => {
   prompt();
 };
 
-// prompts user with list of options to choose from
 function prompt() {
   inquirer
       .prompt({
@@ -78,7 +70,6 @@ function prompt() {
       })
 };
 
-// view all employees in the database
 function viewEmployees() {
   var query = 'SELECT * FROM employee';
   connection.query(query, function(err, res) {
@@ -89,7 +80,6 @@ function viewEmployees() {
   })
 };
 
-// view all departments in the database
 function viewDepartments() {
   var query = 'SELECT * FROM department';
   connection.query(query, function(err, res) {
@@ -99,7 +89,6 @@ function viewDepartments() {
   })
 };
 
-// view all roles in the database
 function viewRoles() {
   var query = 'SELECT * FROM roles';
   connection.query(query, function(err, res){
@@ -109,7 +98,6 @@ function viewRoles() {
   })
 };
 
-// add an employee to the database
 function addEmployee() {
   connection.query('SELECT * FROM roles', function (err, res) {
       if (err) throw err;
@@ -167,7 +155,6 @@ function addEmployee() {
       })
 };
 
-// add a department to the database
 function addDepartment() {
   inquirer
       .prompt([
@@ -192,11 +179,14 @@ function addDepartment() {
           })
 };
 
-// add a role to the database
 function addRole() {
     let department = [];
-  connection.query('SELECT * FROM roles', function(err, res) {
+  connection.query('SELECT * FROM roles', function(answer) {
       if (err) throw err;
+      for (let i = 0; i < answer.length; i++) {
+          answer[i].first_name + "" + answer[i].last_name
+          department.push({name: answer[i].name,})
+      }
   
       inquirer 
       .prompt([
